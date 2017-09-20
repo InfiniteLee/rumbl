@@ -1,6 +1,6 @@
 defmodule RumblWeb.UserView do
   use RumblWeb, :view
-  alias RumblWeb.User
+  alias Rumbl.Accounts.User
 
   def first_name(%User{name: name}) do
     name

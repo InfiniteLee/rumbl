@@ -1,13 +1,15 @@
-defmodule RumblWeb.User do
+defmodule Rumbl.Accounts.User do
   # defstruct [:id, :name, :username, :password]
-  use RumblWeb, :model
+  use Ecto.Schema
+  import Ecto.Changeset
+  alias Rumbl.Accounts.User
 
   schema "users" do
     field :name, :string
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-    has_many :videos, RumblWeb.Video
+    has_many :videos, Rumbl.Media.Video
 
     timestamps()
   end
