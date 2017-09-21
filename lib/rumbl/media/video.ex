@@ -13,12 +13,13 @@ defmodule Rumbl.Media.Video do
     timestamps()
   end
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:url, :title, :description])
-    |> validate_required([:url, :title, :description])
+  @required_fields ~w(url title description)
+  @optional_fields ~w()
+
+  @doc false
+  def changeset(%Video{} = video, attrs \\ %{}) do
+    video
+    |> cast(attrs, @required_fields, @optional_fields)
+    |> assoc_constraint(:category)
   end
 end

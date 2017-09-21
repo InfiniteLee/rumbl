@@ -1,7 +1,10 @@
 defmodule RumblWeb.VideoController do
   use RumblWeb, :controller
 
-  alias RumblWeb.Video
+  alias Rumbl.Media.Video
+  alias Rumbl.Media.Category
+
+  plug :load_categories when action in [:new, :create, :edit, :update]
 
   def action(conn, _) do
     apply(__MODULE__, action_name(conn), 
@@ -29,7 +32,7 @@ defmodule RumblWeb.VideoController do
       |> Video.changeset(video_params)
 
     case Repo.insert(changeset) do
-      {:ok, video} ->
+      {:ok, _video} ->
         conn
         |> put_flash(:info, "Video created successfully.")
         |> redirect(to: video_path(conn, :index))
@@ -77,6 +80,15 @@ defmodule RumblWeb.VideoController do
 
   defp user_videos(user) do
     assoc(user, :videos)
+  end
+
+  defp load_categories(conn, _) do
+    query = 
+      Category
+      |> Category.alphabetical
+      |> Category.names_and_ids
+    categories = Repo.all query
+    assign(conn, :categories, categories)
   end
 
 end
