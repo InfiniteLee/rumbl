@@ -5,7 +5,7 @@ defmodule RumblWeb.ConnCase do
 
   Such tests rely on `Phoenix.ConnTest` and also
   import other functionality to make it easier
-  to build and query models.
+  to build common datastructures and query the data layer.
 
   Finally, if the test case interacts with the database,
   it cannot be async. For this reason, every test runs
@@ -23,22 +23,23 @@ defmodule RumblWeb.ConnCase do
       alias Rumbl.Repo
       import Ecto
       import Ecto.Changeset
-      import Ecto.Query
+      import Ecto.Query, only: [from: 1, from: 2]
 
       import RumblWeb.Router.Helpers
+      import Rumbl.TestHelpers
 
       # The default endpoint for testing
       @endpoint RumblWeb.Endpoint
     end
   end
 
+
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RumblWeb.Repo)
-
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Rumbl.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(RumblWeb.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Rumbl.Repo, {:shared, self()})
     end
-
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
 end

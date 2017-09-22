@@ -13,13 +13,11 @@ defmodule Rumbl.Media.Video do
     timestamps()
   end
 
-  @required_fields ~w(url title description)
-  @optional_fields ~w()
-
   @doc false
   def changeset(%Video{} = video, attrs \\ %{}) do
     video
-    |> cast(attrs, @required_fields, @optional_fields)
+    |> cast(attrs, ~w(url title description category_id)a)
+    |> validate_required(~w(url title description)a)
     |> assoc_constraint(:category)
   end
 end

@@ -6,6 +6,8 @@ defmodule RumblWeb.VideoController do
 
   plug :load_categories when action in [:new, :create, :edit, :update]
 
+  plug :scrub_params, "video" when action in [:create, :update]
+
   def action(conn, _) do
     apply(__MODULE__, action_name(conn), 
       [conn, conn.params, conn.assigns.current_user])
