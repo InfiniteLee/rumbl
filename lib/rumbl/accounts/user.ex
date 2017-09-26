@@ -1,5 +1,4 @@
 defmodule Rumbl.Accounts.User do
-  # defstruct [:id, :name, :username, :password]
   use Ecto.Schema
   import Ecto.Changeset
   alias Rumbl.Accounts.User
@@ -10,6 +9,7 @@ defmodule Rumbl.Accounts.User do
     field :password, :string, virtual: true
     field :password_hash, :string
     has_many :videos, Rumbl.Media.Video
+    has_many :annotations, Rumbl.Media.Annotation
 
     timestamps()
   end
